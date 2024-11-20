@@ -6,9 +6,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    ServerSocket server;
-    Socket client;
-    final int porta;
+    private ServerSocket server;
+    private Socket client;
+    private final int porta;
+
     public Server() {
         server = null;
         client = null;
