@@ -28,7 +28,7 @@ public class Server {
                     DataOutputStream outVersoClient = new DataOutputStream (clientSocket.getOutputStream());
 
                     String message = inDalClient.readLine () ;
-                    System.out.println("Messaggio ricevuto da client : " + message);
+                    System.out.println("Messaggio ricevuto da client: " + message);
                     outVersoClient.writeBytes (message + "\n");
                     outVersoClient.flush() ;
                     }
@@ -38,7 +38,29 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) {
+    public void attendi() {
+        try {
+            server = new ServerSocket(porta);
+            server.setReuseAddress(true);
+            System.out.println("Server in attesa di connessioni.");
 
+            while(true) {
+                client = server.accept();
+                System.out.println("Nuova connessione: " + client);
+
+                Thread clientHandler = new Thread(new ClientHandler(client));
+                clientHandler.start();
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore durante l'istanza del server.");
+            System.exit(1);
+        }
+    }
+
+    public static void main(String[] args) {
+        Server server = new Server();
+        server.attendi();
     }
 }
