@@ -24,15 +24,15 @@ public class Server {
         @Override
         public void run () {
             try {
-                while ( true ) {
-                    BufferedReader inDalClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    DataOutputStream outVersoClient = new DataOutputStream (clientSocket.getOutputStream());
+                while (true) {
+                    BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    DataOutputStream serverOutput = new DataOutputStream(clientSocket.getOutputStream());
 
-                    String message = inDalClient.readLine () ;
+                    String message = clientInput.readLine();
                     System.out.println("Messaggio ricevuto da client: " + message);
-                    outVersoClient.writeBytes (message + "\n");
-                    outVersoClient.flush() ;
-                    }
+                    serverOutput.writeBytes(message + "\n");
+                    serverOutput.flush() ;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
