@@ -10,11 +10,13 @@ public class Server {
     private ServerSocket server;
     private Socket client;
     private final int porta;
+    private final int[] votazioni;
 
     public Server() {
         server = null;
         client = null;
         porta = 1234;
+        votazioni = new int[2];
     }
     private class ClientHandler implements Runnable {
         private Socket clientSocket;
@@ -31,7 +33,27 @@ public class Server {
                 while (true) {
                     String message = clientInput.readLine();
                     System.out.println("Messaggio ricevuto da client: " + message);
-                    serverOutput.writeBytes(message + "\n");
+
+                    switch (message.toLowerCase()) {
+                        case "a":
+                            votazioni[0]++;
+                            break;
+                        case "b":
+                            votazioni[1]++;
+                            break;
+                    }
+                    String res = "";
+                    if(votazioni[0] == votazioni[1]) {
+                        res = "Parita'";
+                    }
+                    else if (votazioni[0] > votazioni[1]) {
+                        res = "Sta vincendo l'opzione A";
+                    }
+                    else {
+                        res = "Sta vincendo l'opzione B";
+                    }
+
+                    serverOutput.writeBytes(res + "\n");
                     serverOutput.flush();
                 }
             } catch (IOException e) {

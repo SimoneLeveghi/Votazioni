@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -19,6 +16,27 @@ public class Client {
         serverHostname = "localhost";
         userInputString = "";
         porta = 1234;
+    }
+
+    private class IncomingMessageHandler implements Runnable {
+        private Socket socket;
+
+        public IncomingMessageHandler(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                BufferedReader serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                while (!userInputString.equals("Fine")) {
+                    System.out.println("\nNuovo risultato: " + serverInput.readLine());
+                }
+            } catch (IOException e) {
+                System.out.println("Errore durante la connessione.");
+                System.exit(1);
+            }
+        }
     }
 
     public void connetti() {
