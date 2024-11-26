@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 public class Server {
     private ServerSocket server;
@@ -24,10 +25,10 @@ public class Server {
         @Override
         public void run () {
             try {
-                while (true) {
-                    BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    DataOutputStream serverOutput = new DataOutputStream(clientSocket.getOutputStream());
+                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                DataOutputStream serverOutput = new DataOutputStream(clientSocket.getOutputStream());
 
+                while (true) {
                     String message = clientInput.readLine();
                     System.out.println("Messaggio ricevuto da client: " + message);
                     serverOutput.writeBytes(message + "\n");
