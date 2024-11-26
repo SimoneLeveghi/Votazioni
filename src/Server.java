@@ -31,10 +31,10 @@ public class Server {
                     String message = clientInput.readLine();
                     System.out.println("Messaggio ricevuto da client: " + message);
                     serverOutput.writeBytes(message + "\n");
-                    serverOutput.flush() ;
+                    serverOutput.flush();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Comunicazione interrotta con il client.");
             }
         }
     }

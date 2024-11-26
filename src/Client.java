@@ -17,6 +17,7 @@ public class Client {
 
     public Client() {
         serverHostname = "localhost";
+        userInputString = "";
         porta = 1234;
     }
 
@@ -38,7 +39,6 @@ public class Client {
 
     public void comunica() {
         try {
-            boolean cond = true;
             while(!userInputString.equals("Fine")) {
                 System.out.print("Stringa da inviare al server: ");
                 userInputString = userInput.readLine();
